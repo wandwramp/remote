@@ -133,6 +133,10 @@ void modeminit()
 {
   WIN *w;
 
+  /* -- not if its a socket */
+  if( isSocket )
+    return;
+
   if (P_MINIT[0] == '\0') return;
 
   w = tell("Initializing Modem");
@@ -163,6 +167,10 @@ void hangup()
 {
   WIN *w;
 
+  /* -- not if its a socket */
+  if( isSocket )
+    return;
+
   w = tell("Hanging up");
 
   if (P_MDROPDTR[0] == 'Y') {
@@ -184,6 +192,10 @@ void sendbreak()
 {
   WIN *w;
   
+  /* -- not if its a socket */
+  if( isSocket )
+    return;
+
   w = tell("Sending BREAK");
   wcursor(w, CNONE);
 
@@ -291,6 +303,10 @@ struct dialent *d;
   time_t now, last;
   char buf[128];
   char modbuf[128];
+
+  /* -- not if its a socket */
+  if( isSocket )
+    return 0;
 
   dialwin = wopen(18, 9, 62, 15, BSINGLE, stdattr, mfcolor, mbcolor, 0, 0, 1);
   wtitle(dialwin, TMID, "Autodial");

@@ -47,8 +47,13 @@ char *s;
 {
   if (stdwin) wclose(stdwin, 1);
   if (portfd > 0) {
+    /* -- don't restor state if socket */
+    if( !isSocket )
+      {
 	m_restorestate(portfd);
-	close(portfd);
+      }
+    
+    close(portfd);
   }
   set_privs();
   if (lockfile[0]) unlink(lockfile);
@@ -99,6 +104,10 @@ int doinit;
 #ifdef __linux__
   int s_errno;
 #endif
+
+  /* -- already open if socket */
+  if( isSocket )
+    return 0;
 
   /* Upgrade our status. */
   set_privs();
@@ -239,6 +248,13 @@ int len;
 {
   char buf[256];
   int f;
+
+  /* -- if socket don't worry about buffers */
+  if( isSocket )
+    {
+      write( portfd, s, len );
+      return;
+    }
 
   if (len == 0) len = strlen(s);
 
@@ -389,33 +405,37 @@ void timer_update()
   static time_t t1, start;
   int dcd_support = P_HASDCD[0] == 'Y';
 
-  /* See if we're online. */
-  if ((!dcd_support && bogus_dcd) || (dcd_support && m_getdcd(portfd))) {
+  /* -- if socket we're always online */
+  if( !isSocket )
+    {
+      /* See if we're online. */
+      if ((!dcd_support && bogus_dcd) || (dcd_support && m_getdcd(portfd))) {
 	/* We are online at the moment. */
   	if (online < 0) {
-		/* This was a transition from off to online */
-  		time(&start);
+	  /* This was a transition from off to online */
+	  time(&start);
   		t1 = start;
   		online = 0;
   		updtime();
 #if _DCDFLOW
 		/* DCD has gotten high, we can turn on hw flow control */
 		if (P_HASRTS[0] == 'Y')
-			m_sethwf(portfd, 1);
+		  m_sethwf(portfd, 1);
 #endif
   	}
-  } else {
+      } else {
 	/* We are offline at the moment. */
 #if _DCDFLOW
 	if (online >= 0) {
-		/* DCD has dropped, turn off hw flow control. */
-		m_sethwf(portfd, 0);
+	  /* DCD has dropped, turn off hw flow control. */
+	  m_sethwf(portfd, 0);
 	}
 #endif
   	online = -1;
   	updtime();
-  }
-
+      }
+      
+    }
   /* Update online time */
   if (online >= 0) {
   	time(&t1);

@@ -43,6 +43,10 @@ char *s;
 /* Hangup. */
 void m_hangup()
 {
+  /* -- not if socket */
+  if( isSocket )
+    return;
+
   if (P_MDROPDTR[0] == 'Y') {
   	m_dtrtoggle(portfd);
   } else {

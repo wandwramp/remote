@@ -40,6 +40,7 @@ EXTERN int remote_uid;  /*Uid of remote user*/
 EXTERN short terminal;	/* terminal type */
 EXTERN time_t online;	/* Time online in minutes */
 EXTERN short portfd;	/* File descriptor of the serial port. */
+EXTERN short isSocket;  /* -- 0 if using a serialport, > 0 if using a socket */
 EXTERN short lines;	/* Nr. of lines on the screen */
 EXTERN short cols;	/* Nr. of cols of the screen */
 EXTERN int keypadmode;	/* Mode of keypad */

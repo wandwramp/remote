@@ -49,6 +49,10 @@ static char *c7[] = { "   Yes  ", "   No   ", CNULL };
 /* Initialize modem port. */
 void port_init()
 {
+  /* -- not if its a socket */
+  if( isSocket )
+    return;
+  
   m_setparms(portfd, P_BAUDRATE, P_PARITY, P_BITS, P_HASRTS[0] == 'Y',
 	P_HASXON[0] == 'Y');
 }
@@ -360,6 +364,8 @@ char **argv;
 
   /* Initialize global variables */
   portfd = -1;
+  isSocket = 0; /* -- */
+  parfile[0] = '\0';
   capfp = (FILE *)NULL;
   docap = 0;
   online = -1;
@@ -443,7 +449,7 @@ char **argv;
 
   do {
 	/* Process options with getopt */
-	while((c = getopt(argk, args, "zhlsomMbc:a:t:d:p:")) != EOF) switch(c) {
+	while((c = getopt(argk, args, "zhlsomMbc:a:t:d:p:g:w:")) != EOF) switch(c) {
   		case 's': /* setup */
   			if (real_uid != remote_uid && real_uid != eff_uid) {
 		fprintf(stderr, "remote: -s switch needs user remote privilige\n");
@@ -524,6 +530,17 @@ char **argv;
 		case 'z': /* Enable status line. */
 			use_status = 1;
 			break;
+
+			/* -- */
+	case 'g': /* -- allows a different parfile to be specified */
+	  sprintf( parfile, "%s", optarg );
+	  break;
+
+	case 'w': /* -- gives us a socket id for use with wrampsim */
+	  portfd = atoi( optarg );
+	  isSocket = 1;
+	  break;
+
   		default:
   			usage(env_args, optind, mc);
   			break;
@@ -544,10 +561,13 @@ char **argv;
 	sleep(5);
   }
 
-  /* Avoid fraude ! */	
-  for(s = use_port; *s; s++) if (*s == '/') *s = '_';
-  sprintf(parfile, "%s/remoterc.%s", LIBDIR, use_port);
-
+  /* set the parfile if it is not already set */
+  if( parfile[0] == '\0' )
+    {
+      /* Avoid fraude ! */	
+      for(s = use_port; *s; s++) if (*s == '/') *s = '_';
+      sprintf(parfile, "%s/remoterc.%s", LIBDIR, use_port);
+    }
   /* Get password file information of this user. */
   if ((pwd = getpwuid(real_uid)) == (struct passwd *)0) {
   	fprintf(stderr, "You don't exist. Go away.\n");
@@ -840,11 +860,15 @@ dirty_goto:
 	}
   };
 
-  /* Reset parameters */
-  if (quit != NORESET)
+  /* -- not if its a socket */
+  if( !isSocket )
+    {
+      /* Reset parameters */
+      if (quit != NORESET)
 	m_restorestate(portfd);
-  else
+      else
 	m_hupcl(portfd, 0);
+    }
   if (capfp != (FILE *)0) fclose(capfp);
   wclose(us, 0);
   wclose(st, 0);
