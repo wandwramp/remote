@@ -12,7 +12,7 @@
 #
 
 # Where to install things for Linux sites (FSSTND)
-BINDIR	= /home/daa1/working/remote
+BINDIR	= /usr/local/bin
 LIBDIR	= $(BINDIR)
 MANDIR	= $(BINDIR)
 

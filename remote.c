@@ -398,7 +398,10 @@ char **argv;
 #ifdef __CYGWIN__
   remote_uid = 0;
 #else
-  remote_uid = getpwnam("remote")->pw_uid;
+  if (getpwnam("remote") == NULL)
+    remote_uid = 0;
+  else 
+    remote_uid = getpwnam("remote")->pw_uid;
 #endif
 
 /* fmg 1/11/94 colors (set defaults) */
