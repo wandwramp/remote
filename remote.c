@@ -61,6 +61,9 @@ static void do_hang(askit)
 int askit;
 {
   int c = 0;
+
+  if( isSocket ) /*  not if its a socket */
+    return 0;
  
   if (askit) c = ask("Hang-up line?", c7);
   if (c == 0) hangup();
@@ -76,8 +79,12 @@ int sig;
 	werror("Killed by signal %d !\n", sig);
   if (capfp != (FILE *)0) fclose(capfp);
   keyboard(KUNINSTALL, 0);
-  hangup();
-  modemreset();
+
+  if( !isSocket ) /* only hangup and reset if its a modem */
+    {
+      hangup();
+      modemreset();
+    }
   leave("\n");
 }
 
