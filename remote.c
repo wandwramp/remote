@@ -13,6 +13,11 @@
  * fmg 1/11/94 colors
  *
  */
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+
 #define EXTERN
 #include "port.h"
 #include "remote.h"
@@ -63,7 +68,7 @@ int askit;
   int c = 0;
 
   if( isSocket ) /*  not if its a socket */
-    return 0;
+    return ;
  
   if (askit) c = ask("Hang-up line?", c7);
   if (c == 0) hangup();
@@ -347,6 +352,7 @@ int main(argc, argv)
 int argc;
 char **argv;
 {
+  struct sockaddr_un server;    /* for -x parameter */
   int c;			/* Command character */
   int quit = 0;			/* 'q' or 'x' pressed */
   char *s, *bufp;		/* Scratch pointers */
@@ -456,7 +462,7 @@ char **argv;
 
   do {
 	/* Process options with getopt */
-	while((c = getopt(argk, args, "zhlsomMbc:a:t:d:p:g:w:")) != EOF) switch(c) {
+	while((c = getopt(argk, args, "zhlsomMbc:a:t:d:p:g:w:x:")) != EOF) switch(c) {
   		case 's': /* setup */
   			if (real_uid != remote_uid && real_uid != eff_uid) {
 		fprintf(stderr, "remote: -s switch needs user remote privilige\n");
@@ -548,6 +554,24 @@ char **argv;
 	  isSocket = 1;
 	  break;
 
+	case 'x':
+	  
+	  portfd = socket(AF_UNIX, SOCK_STREAM, 0);
+	  server.sun_family = AF_UNIX;
+	  sprintf( server.sun_path, "%s", optarg );
+	  
+	  if (connect(portfd, (struct sockaddr *) &server, 
+		      sizeof(struct sockaddr_un))    < 0) 
+	    {
+	      close( portfd );
+	      fprintf( stderr, "Error: connecting stream socket, path: %s\n",
+		       server.sun_path );
+	      exit(-1);
+	    }
+
+	  isSocket = 1;
+	  break;
+
   		default:
   			usage(env_args, optind, mc);
   			break;
@@ -559,6 +583,17 @@ char **argv;
 
     /* Loop again if more options */
   } while(optind < argk);
+
+  if( isSocket )
+    {
+      if( read( portfd, NULL, 0 ) < 0 )
+	{
+	  fprintf( stderr, "error: portfd is giving an error.\n"
+		   "errno = %d | 0x%x\n", errno, errno );
+	  sleep( 2 );
+	  exit( -4 );
+	}
+    }
 
   if (real_uid == remote_uid && dosetup == 0) {
 	fprintf(stderr, "%s%s%s",
@@ -876,6 +911,7 @@ dirty_goto:
       else
 	m_hupcl(portfd, 0);
     }
+
   if (capfp != (FILE *)0) fclose(capfp);
   wclose(us, 0);
   wclose(st, 0);
