@@ -32,7 +32,7 @@
 #  define CALLOUT  ""			/* Gets run to get into dial out mode */
 #  define CALLIN   ""			/* Gets run to get into dial in mode */
 #  undef  UUCPLOCK
-#  define UUCPLOCK "/var/lock"		/* FSSTND 1.2 */
+#  define UUCPLOCK "/tmp"               /* /var/lock */	/* FSSTND 1.2 */
 #endif
 
 #if defined (_COHERENT)

@@ -12,7 +12,7 @@
 #
 
 # Where to install things for Linux sites (FSSTND)
-BINDIR	= /usr/local/bin
+BINDIR	= /home/201/bin
 LIBDIR	= $(BINDIR)
 MANDIR	= $(BINDIR)
 

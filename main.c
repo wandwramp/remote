@@ -209,6 +209,7 @@ int doinit;
   	if ((fd = open(lockfile, O_WRONLY | O_CREAT | O_EXCL, 0666)) < 0) {
 #endif
   		if (stdwin != NIL_WIN) wclose(stdwin, 1);
+		/*		fprintf(stderr, "lockfile = '%s'\n", lockfile);*/
   		fprintf(stderr, "Cannot create lockfile. Sorry.\n");
 		drop_privs();
 		return(-1);
