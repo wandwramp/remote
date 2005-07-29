@@ -17,6 +17,7 @@
 #include "patchlevel.h"
 #ifdef __linux__
 #include <errno.h>
+#include <time.h>
 #endif
 
 static jmp_buf albuf;
