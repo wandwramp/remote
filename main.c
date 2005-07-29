@@ -114,7 +114,7 @@ int doinit;
 
   /* First see if the lock file directory is present. */
   if (P_LOCK[0] && stat(P_LOCK, &stt) == 0)
-  	sprintf(lockfile, "%s/LCK..%s", P_LOCK, mbasename(dial_tty));
+  	sprintf(lockfile, "%s/LCK_%s.%s", P_LOCK, mbasename(dial_tty), username);
   else
 	lockfile[0] = 0;
 
