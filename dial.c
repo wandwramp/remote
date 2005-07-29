@@ -18,6 +18,7 @@
 #    include <sys/ioctl.h>
 #    include <sys/kd.h>
 #    include <sys/time.h>
+#include <time.h>
 #  endif
 #  if defined(_COH42) || defined(_SCO)
 #    include <sys/vtkd.h>
