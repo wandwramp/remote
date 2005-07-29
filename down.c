@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
       fprintf(stderr, "%c", ch);
       fflush(NULL);
     }  
-  fprintf(stderr, "\n%s\n", gets(line));
-  fprintf(stderr, "%s", gets(line));
+  fprintf(stderr, "\n%s\n", fgets(line, 132, stdin));
+  fprintf(stderr, "%s", fgets(line, 132, stdin));
   printf("\n");
 
   return 0;
