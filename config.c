@@ -1004,7 +1004,7 @@ int setup;
 
 /* fmg 1/11/94 Color names for menu */
 
-static char *J_col[] =
+char *J_col[] =
   { "BLACK", "RED", "GREEN", "YELLOW", "BLUE", "MAGENTA", "CYAN", "WHITE", };
 
 static char *speeds[] =

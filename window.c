@@ -52,7 +52,8 @@ static char *CE, *Al, *Dl, *AL, *DL;
 static char *CS, *SF, *SR, *VB, *BL;
 static char *VE, *VI, *KS, *KE;
 static char *CD, *CL, *IC, *DC;
-static char *BC, *CR, *NL;
+char *BC;
+static char *CR, *NL;
 #if ST_LINE
 static char *TS, *FS, *DS;
 #endif
