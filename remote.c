@@ -151,7 +151,7 @@ int dummy;
 
 #if HISTORY
 /* Get a line from either window or scroll back buffer. */
-static ELM *getline(w, no)
+static ELM *getline_elm(w, no)
 WIN *w;
 int no;
 {
@@ -181,7 +181,7 @@ int r;
 
   w->direct = 0;
   for(f = 0; f < w->ys; f++)
-	wdrawelm(w, f, getline(w, y++));
+	wdrawelm(w, f, getline_elm(w, y++));
   if (r) wredraw(w, 1);
   w->direct = 1;
 }
@@ -227,7 +227,7 @@ static void scrollback()
 		if (y <= 0) break;
 		y--;
 		wscroll(b_us, S_DOWN);
-		wdrawelm(b_us, 0, getline(b_us, y));
+		wdrawelm(b_us, 0, getline_elm(b_us, y));
 		wflush();
 		break;
 	  case 'd':
@@ -235,7 +235,7 @@ static void scrollback()
 		if (y >= us->histlines) break;
 		y++;
 		wscroll(b_us, S_UP);
-		wdrawelm(b_us, b_us->ys - 1, getline(b_us, y + b_us->ys - 1));
+		wdrawelm(b_us, b_us->ys - 1, getline_elm(b_us, y + b_us->ys - 1));
 		wflush();
 		break;
 	  case 'b':
