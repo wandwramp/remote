@@ -624,7 +624,7 @@ char **argv;
   strcpy(username, pwd->pw_name);
 
   /* Get personal parameter file */
-  sprintf(pparfile, "%s/.remtoerc.%s", homedir, use_port);
+  sprintf(pparfile, "%s/.remoterc.%s", homedir, use_port);
 
   /* Check this user in the USERFILE */
   if (real_uid != remote_uid && real_uid != eff_uid) {
