@@ -199,7 +199,7 @@ install:	$(PROGS)
 		sh install.sh $(R)$(LIBDIR) $(R)$(BINDIR) $(R)$(MANDIR)
 
 clobber:
-		rm -f *.o remote keyserv runscript
+		rm -f *.o remote keyserv runscript down
 
 clean:		
 		rm -f *.o
