@@ -31,7 +31,7 @@ MANDIR	= $(BINDIR)
 
 # Take these compilation flags for Linux with ncurses.
 FLAGS	= -Wall -D_POSIX -D_SYSV -D_SELECT -D_HAVE_MACROS # -I/usr/include/ncurses
-PROGS	= remote runscript down
+PROGS	= remote down
 LFLAGS	= -s
 LIBS	= -lncurses
 CC	= gcc
