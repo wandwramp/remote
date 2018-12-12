@@ -188,7 +188,12 @@ int nr;
 		set_privs();
 		setgid((gid_t)real_gid);
   		setuid((uid_t)real_uid);
-  		(void) fastexec(translate(cmdline));
+		if (fastexec(translate(cmdline)) == -1)
+		{
+			fprintf(stderr, "\n\n");
+			fprintf(stderr, "                    Could not find down!\n");
+			fprintf(stderr, "          Please contact your system administrator\n\n");
+		}
   		exit(1);
   	default: /* Parent */
   		break;
