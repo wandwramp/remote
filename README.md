@@ -15,6 +15,8 @@ directory. An example of a configuration file can be found at [remoterc.dfl](rem
 
 The main relevant entries are `pu pprog1`, `pu port`, and `pu baudrate`.
 * `pu pprog1` should be the location of a `down` binary as built by this project.
+Alternatively, place `down` in a location seen by your $PATH and give pprog1
+a value of `down`.
 * `pu port` should be the location of the serial port attached to a WRAMP board.
 * `pu baudrate` should be the baud rate that the serial port is running at.
 WRAMPmon will use a value of 38400 by default.
