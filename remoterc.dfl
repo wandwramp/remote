@@ -7,7 +7,7 @@ pu pname5           NDNY
 pu pname6           YDNY
 pu pname7           YUYN
 pu pname8           NDYN
-pu pprog1           /usr/local/bin/down
+pu pprog1           down
 pr port             /dev/ttyUSB1
 pu baudrate         38400
 pu rtscts           No 
