@@ -16,6 +16,7 @@
  */
 #include "port.h"
 #include "remote.h"
+#include <stdio.h>
 
 #if _HAVE_MACROS
 /* Prefix a non-absolute file with the home directory. */
@@ -39,6 +40,9 @@ void read_parms()
   int f;
   char buf[64];
   char *p;
+  
+
+  
 
   /* Read global parameters */
   if ((fp = fopen(parfile, "r")) == (FILE *)NULL) {
@@ -48,8 +52,11 @@ void read_parms()
   		sleep(2);
   		return;
   	}
+  	
+  	printf("%d\n",fopen("~/wramp-install/remoterc.dfl", "r"));
+  	
   	fprintf(stderr,
-	"remote: there is no global configuration file %s\n", parfile);
+	"remote: there is no global configuration file '%s'\n", parfile);
   	fprintf(stderr, "Ask your sysadm to create one (with remote -s).\n");
   	exit(1);
   }
@@ -947,6 +954,11 @@ static void donamsave()
 {
   char ifile[128];
   char *s;
+  
+  char * LIBDIRREAL[100];
+  readlink("/proc/self/exe", LIBDIRREAL, 100); //everything runs from the build dir
+  char * lastSlash = strrchr(LIBDIRREAL, '/');
+  *(lastSlash + 1) = 0;
 
   if (real_uid != remote_uid ) {
   	werror("You are not allowed to create a configuration");
@@ -955,8 +967,8 @@ static void donamsave()
 
   ifile[0] = 0;
   s = input("Give name to save this configuration?", ifile);
-  if (s != (char *)0 && *s != 0) {
-  	sprintf(parfile, "%s/remoterc.%s", LIBDIR, s);
+  if (s != (char *)0 && *s != 0) {  
+  	sprintf(parfile, "%sremoterc.%s", LIBDIRREAL, s);
   dodflsave();
   }
 }

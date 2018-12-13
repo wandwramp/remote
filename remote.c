@@ -50,6 +50,7 @@ static char *c1[] = { "   Yes  ", "   No   ", CNULL };
 static char *c2[] = { "  Close ", " Pause  ", "  Exit  ", CNULL };
 static char *c3[] = { "  Close ", " Unpause", "  Exit  ", CNULL };
 static char *c7[] = { "   Yes  ", "   No   ", CNULL };
+char * LIBDIRREAL[100];
 
 /* Initialize modem port. */
 void port_init()
@@ -335,8 +336,8 @@ static void helpthem()
   printf("These options can also be specified in the REMOTE environment variable.\n");
   printf("This variable is currently %s%s.\n", mc ? "set to " : "unset",
 	mc ? mc : "");
-  printf("The LIBDIR to find the configuration files and the\n");
-  printf("access file remote.users is compiled as %s.\n\n", LIBDIR);
+  printf("The LIBDIRREAL to find the configuration files and the\n");
+  printf("access file remote.users is compiled as %s.\n\n", LIBDIRREAL);
 
 #if 0  /* More than 24 lines.. */
   printf("\
@@ -374,6 +375,11 @@ char **argv;
   char *cmd_dial;		/* Entry from the command line. */
   int alt_code;			/* Type of alt key */
   char pseudo[64];
+  
+  
+  readlink("/proc/self/exe", LIBDIRREAL, 100); //everything runs from the build dir
+  char * lastSlash = strrchr(LIBDIRREAL, '/');
+  *(lastSlash + 1) = 0;
 
   /* Initialize global variables */
   portfd = -1;
@@ -608,7 +614,7 @@ char **argv;
     {
       /* Avoid fraude ! */	
       for(s = use_port; *s; s++) if (*s == '/') *s = '_';
-      sprintf(parfile, "%s/remoterc.%s", LIBDIR, use_port);
+      sprintf(parfile, "%sremoterc.%s", LIBDIRREAL, use_port);
     }
   /* Get password file information of this user. */
   if ((pwd = getpwuid(real_uid)) == (struct passwd *)0) {
@@ -628,7 +634,7 @@ char **argv;
 
   /* Check this user in the USERFILE */
   if (real_uid != remote_uid && real_uid != eff_uid) {
-  	sprintf(userfile, "%s/remote.users", LIBDIR);
+  	sprintf(userfile, "%s/remote.users", LIBDIRREAL);
 	if ((fp = fopen(userfile, "r")) != (FILE *)0) {
 		while(fgets(buf, 70, fp) != CNULL && !userok) {
 			/* Read first word */

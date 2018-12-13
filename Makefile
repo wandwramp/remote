@@ -12,9 +12,19 @@
 #
 
 # Where to install things for Linux sites (FSSTND)
-BINDIR	= /home/201/bin
+ifndef INSTALLDIR
+INSTALLDIR=~/wramp-install/
+endif
+
+BINDIR	= $(INSTALLDIR)
 LIBDIR	= $(BINDIR)
 MANDIR	= $(BINDIR)
+
+
+MKDIR=mkdir -p
+COPY=cp
+INSTALLBINS=$(INSTALLDIR)remote $(INSTALLDIR)down 
+
 
 # Where to install things for "normal" sites.
 # BINDIR	= /usr/local/bin
@@ -196,10 +206,13 @@ sysdep2.o:	sysdep2.c $(HDRS)
 rwconf.o:	rwconf.c $(HDRS)
 
 install:	$(PROGS)
-		sh install.sh $(R)$(LIBDIR) $(R)$(BINDIR) $(R)$(MANDIR)
+		$(MKDIR) $(INSTALLDIR)
+		$(COPY) $(PROGS) remoterc.dfl $(INSTALLDIR)
+		
 
 clobber:
 		rm -f *.o remote keyserv runscript down
+		rm -f $(INSTALLBINS)
 
 clean:		
 		rm -f *.o
