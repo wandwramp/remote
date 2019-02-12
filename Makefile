@@ -16,7 +16,8 @@ ifndef INSTALLDIR
 INSTALLDIR=~/wramp-install/
 endif
 
-BINDIR	= $(INSTALLDIR)
+#location of config file
+BINDIR	=~/wramp-install/
 LIBDIR	= $(BINDIR)
 MANDIR	= $(BINDIR)
 
@@ -207,7 +208,9 @@ rwconf.o:	rwconf.c $(HDRS)
 
 install:	$(PROGS)
 		$(MKDIR) $(INSTALLDIR)
-		$(COPY) $(PROGS) remoterc.dfl $(INSTALLDIR)
+		$(MKDIR) $(LIBDIR)
+		$(COPY) $(PROGS) $(INSTALLDIR)
+		$(COPY) remoterc.dfl $(LIBDIR)
 		
 
 clobber:

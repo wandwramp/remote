@@ -615,6 +615,20 @@ char **argv;
       /* Avoid fraude ! */	
       for(s = use_port; *s; s++) if (*s == '/') *s = '_';
       sprintf(parfile, "%sremoterc.%s", LIBDIRREAL, use_port);
+
+	  if( access( parfile, F_OK ) != -1 ) {
+		fprintf(stderr, "File exists %s\n", parfile);
+	  }
+	  else {
+		  fprintf(stderr, "File does not exist '%s'\n", parfile);
+		  sprintf(parfile, "/etc/remoterc.%s", use_port);
+
+		  fprintf(stderr, "trying '%s'\n", parfile );
+		   if( access( parfile, F_OK ) != -1 ) {
+			   fprintf(stderr, "File exists\n");	
+		   }
+
+	  }
     }
   /* Get password file information of this user. */
   if ((pwd = getpwuid(real_uid)) == (struct passwd *)0) {

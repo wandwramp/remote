@@ -39,3 +39,5 @@ The [Makefile](Makefile) is set up for a Linux environment with ncurses installe
 Once the desired location for `remoterc.dfl` is set by the BINDIR variable,
 run `make`.
 Two binaries should be generated: `down` and `remote`.
+INSTALLDIR will set the desired location for the two binaries when `make install`
+is used.
