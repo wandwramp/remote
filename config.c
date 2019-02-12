@@ -51,9 +51,6 @@ void read_parms()
 			sleep(2);
 			return;
 		}
-
-		//printf("%d\n", fopen("~/wramp-install/remoterc.dfl", "r"));
-
 		fprintf(stderr,
 				"remote: there is no global configuration file '%s'\n", parfile);
 		fprintf(stderr, "Ask your sysadm to create one (with remote -s).\n");
