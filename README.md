@@ -41,3 +41,7 @@ run `make`.
 Two binaries should be generated: `down` and `remote`.
 INSTALLDIR will set the desired location for the two binaries when `make install`
 is used.
+
+As an ease of use, `make install` will also copy a bash script called `vt320` to the install directory,
+this is just an alias for opening screen for the 2nd serial port but makes 
+things eaiser for new students. 
