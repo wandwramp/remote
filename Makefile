@@ -209,8 +209,9 @@ rwconf.o:	rwconf.c $(HDRS)
 install:	$(PROGS)
 		$(MKDIR) $(INSTALLDIR)
 		$(MKDIR) $(LIBDIR)
-		$(COPY) $(PROGS) $(INSTALLDIR)
+		$(COPY) $(PROGS) vt320 $(INSTALLDIR)
 		$(COPY) remoterc.dfl $(LIBDIR)
+		chmod +x $(INSTALLDIR)vt320
 		
 
 clobber:
