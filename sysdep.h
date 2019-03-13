@@ -1,18 +1,24 @@
 /*
- * sysdep.h	Header file for the really system dependant routines
- *		in sysdep1.c and sysdep2.c. Because of this, the
- *		header file "port.h" is not used when "sysdep.h" is
- *		included. This file is only included from sysdep[12].c
- *		anyway!
- *
- *		This file is part of the minicom communications package,
- *		Copyright 1991-1995 Miquel van Smoorenburg.
- *
- *		This program is free software; you can redistribute it and/or
- *		modify it under the terms of the GNU General Public License
- *		as published by the Free Software Foundation; either version
- *		2 of the License, or (at your option) any later version.
- */
+########################################################################
+# This file is part of the minicom communications package for WRAMP.
+#
+# Copyright 1991-1995 Miquel van Smoorenburg.
+# Copyright (C) 2019 The University of Waikato, Hamilton, New Zealand.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+########################################################################
+*/
 #include <sys/types.h>
 /* Include standard Posix header files. */
 #if defined (_POSIX) || defined(_BSD43)
