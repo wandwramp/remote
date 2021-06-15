@@ -1,0 +1,8 @@
+#!/bin/bash
+
+POSSIBLE_SP1_LOCATIONS=( "/dev/serial/by-id/usb-Digilent_Digilent_USB_Device_*-if01-port0" )
+
+echo "# Automatically generated based on this system's actual location for the first serial port" > ~/.remoterc.dfl
+echo -e "pu port\t" $POSSIBLE_SP1_LOCATIONS >> ~/.remoterc.dfl
+
+remote_bin

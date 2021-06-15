@@ -70,6 +70,7 @@ void read_parms()
 	/* Read personal parameters */
 	if ((fp = sfopen(pparfile, "r")) != (FILE *)NULL)
 	{
+		fprintf(stderr, "Also using personal configuration from %s\n", pparfile);
 		readpars(fp, 0);
 		fclose(fp);
 	}

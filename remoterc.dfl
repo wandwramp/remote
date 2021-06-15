@@ -8,7 +8,7 @@ pu pname6           YDNY
 pu pname7           YUYN
 pu pname8           NDYN
 pu pprog1           down
-pr port             /dev/ttyUSB1
-pu baudrate         38400
+#pr port             Set this to one of the symlinks in /dev/serial/by-id/<XXX> depending on which device SP1 is
+pr baudrate         38400
 pu rtscts           No 
 pu mfcolor          RED

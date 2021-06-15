@@ -1,0 +1,5 @@
+#!/bin/bash
+
+POSSIBLE_SP2_LOCATIONS=( "/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_*-if00-port0" )
+
+screen $POSSIBLE_SP2_LOCATIONS 38400 
