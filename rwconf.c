@@ -93,13 +93,13 @@ struct pars mpars[] = {
   { "",			PUBLIC,   "pprog11" },
   { "",			PUBLIC,   "pprog12" },
   /* Serial port & friends */
-  { DFL_PORT,		PRIVATE,  "port" },
+  { DFL_PORT,		PUBLIC,  "port" },
   { CALLIN,		PRIVATE,  "callin" },
   { CALLOUT,		PRIVATE,  "callout" },
   { UUCPLOCK,		PRIVATE,  "lock" },
-  { DEF_BAUD,		PUBLIC,   "baudrate" },
-  { "8",		PUBLIC,   "bits" },
-  { "N",		PUBLIC,   "parity" },
+  { DEF_BAUD,		PRIVATE,   "baudrate" },
+  { "8",		PRIVATE,   "bits" },
+  { "N",		PRIVATE,   "parity" },
   /* Kermit the frog */
   { KERMIT,		PRIVATE,  "kermit" },
   { "Yes",		PRIVATE,  "kermallow" },
@@ -214,14 +214,14 @@ FILE *fp;
 int init;
 {
   struct pars *p;
-  char line[80];
+  char line[300];
   char *s;
   int public;
   int dosleep = 0;
 
   if (init) strcpy(P_SCRIPTPROG, "runscript");
 
-  while(fgets(line, 80, fp) != (char *)0) {
+  while(fgets(line, 300, fp) != (char *)0) {
 
   	s = strtok(line, "\n\t ");
 	if (s == NULL) continue;
